@@ -16,7 +16,7 @@ int main(void)
         for (unsigned int x = 0; x < graph.getWidth(); x++)
         {
             y = std::cos(x / 50.) * 990 + graph.getWidth() / 2;
-            graph.addLine(x, lastY, x, y);
+            graph.addLine(Vector2(x, lastY), Vector2(x, y));
             lastY = y;
         }
 
@@ -27,17 +27,17 @@ int main(void)
     {
         Graph graph(20, 20);
 
-        graph.addLine(5, 5, 14, 5);
-        graph.addLine(3, 7, 5, 5);
-        graph.addLine(14, 5, 16, 7);
+        graph.addLine(Vector2(5, 5), Vector2(14, 5));
+        graph.addLine(Vector2(3, 7), Vector2(5, 5));
+        graph.addLine(Vector2(14, 5), Vector2(16, 7));
 
-        graph.addPoint(14, 15);
-        graph.addPoint(15, 16);
-        graph.addPoint(16, 15);
+        graph.addPoint(Vector2(14, 15));
+        graph.addPoint(Vector2(15, 16));
+        graph.addPoint(Vector2(16, 15));
 
-        graph.addPoint(3, 15);
-        graph.addPoint(4, 16);
-        graph.addPoint(5, 15);
+        graph.addPoint(Vector2(3, 15));
+        graph.addPoint(Vector2(4, 16));
+        graph.addPoint(Vector2(5, 15));
 
         graph.show();
     }
@@ -76,7 +76,7 @@ int main(void)
     {
         Graph graph(5, 5);
         try {
-            graph.addPoint(6, 6);
+            graph.addPoint(Vector2(6, 6));
             assert(false);
         } catch (std::exception const &e) {
             std::cerr << e.what() << std::endl;
@@ -87,7 +87,7 @@ int main(void)
     {
         Graph graph(5, 5);
         try {
-            graph.addLine(6, 1, 0, 0);
+            graph.addLine(Vector2(6, 1), Vector2(0, 0));
             assert(false);
         } catch (std::exception const &e) {
             std::cerr << e.what() << std::endl;
@@ -98,7 +98,7 @@ int main(void)
     {
         Graph graph(5, 5);
         try {
-            graph.addLine(0, 0, -1, 1);
+            graph.addLine(Vector2(0, 0), Vector2(-1, 1));
             assert(false);
         } catch (std::exception const &e) {
             std::cerr << e.what() << std::endl;

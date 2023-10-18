@@ -1,6 +1,7 @@
 #include "Graph.hpp"
 
 #include <algorithm>
+#include <cassert>
 #include <cmath>
 #include <cstddef>
 #include <fstream>
@@ -36,22 +37,44 @@ Graph &Graph::operator=(Graph const &other)
 Graph::~Graph()
 {}
 
-void Graph::addPoint(unsigned int x, unsigned int y)
+void Graph::addPoint(Vector2 point)
 {
-    if (x >= _width || y >= _height)
+    if (!point.isIntegers())
+    {
+        throw std::invalid_argument("Point is not integers");
+    }
+
+    // Round the points to remove the possible floating point errors
+    point.round();
+
+    if (point.x < 0 || point.x >= _width || point.y < 0 || point.y >= _height)
     {
         throw OutOfBoundsException();
     }
-    _points.push_back(Vector2(x, y));
+    _points.push_back(point);
 }
 
-void Graph::addLine(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2)
+void Graph::addLine(Vector2 point1, Vector2 point2)
 {
-    if (x1 >= _width || y1 >= _height || x2 >= _width || y2 >= _height)
+    if (!point1.isIntegers())
+    {
+        throw std::invalid_argument("Point 1 is not integers");
+    }
+    else if (!point2.isIntegers())
+    {
+        throw std::invalid_argument("Point 2 is not integers");
+    }
+
+    // Round the points to remove the possible floating point errors
+    point1.round();
+    point2.round();
+
+    if (!point1.isInRange(Vector2::ZERO, Vector2(_width - 1, _height - 1))
+        || !point2.isInRange(Vector2::ZERO, Vector2(_width - 1, _height - 1)))
     {
         throw OutOfBoundsException();
     }
-    _lines.push_back(std::make_pair(Vector2(x1, y1), Vector2(x2, y2)));
+    _lines.push_back(std::make_pair(point1, point2));
 }
 
 inline static size_t countDigits(unsigned int number)
@@ -121,12 +144,9 @@ void Graph::show(void) const
         }
         for (size_t x = 0; x < _width; x++)
         {
-            try
-            {
+            try {
                 std::cout << digitAtIndex(x, y);
-            }
-            catch (std::out_of_range const &e)
-            {
+            } catch (std::out_of_range const &e) {
                 std::cout << " ";
             }
         }
@@ -136,6 +156,8 @@ void Graph::show(void) const
 
 void Graph::save(char const *filename) const
 {
+    assert(filename != NULL);
+
     // Create a white background
     std::vector<PNG::Byte> data(_width * _height * 3 + _height, 255);
     for (size_t y = 0; y < _height; y++)
@@ -209,7 +231,7 @@ void Graph::fromFile(std::string const &filename)
             throw InvalidFileException("A value is not a valid positive int in the file");
         }
 
-        this->addPoint(x, y);
+        this->addPoint(Vector2(x, y));
     }
 }
 
@@ -221,4 +243,19 @@ unsigned int Graph::getWidth(void) const
 unsigned int Graph::getHeight(void) const
 {
     return _height;
+}
+
+std::vector<Vector2> const &Graph::getPoints(void) const
+{
+    return _points;
+}
+
+std::vector< std::pair<Vector2, Vector2> > const &Graph::getLines(void) const
+{
+    return _lines;
+}
+
+Graph::Graph(void)
+{
+    assert(false);
 }

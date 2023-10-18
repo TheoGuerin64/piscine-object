@@ -21,7 +21,7 @@ std::ostream &operator<<(std::ostream &p_os, Bank::Account const &p_account)
 
 int Bank::Account::_accountCreated = 0;
 
-Bank::Account::Account(int value)
+Bank::Account::Account(int value /* = 0 */)
     : _id(_accountCreated), _value(value)
 {
     _accountCreated++;

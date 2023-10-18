@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 
 #include "Bank.hpp"
@@ -12,16 +13,16 @@ static void testSubject(void)
 	bank.setLiquidity(bank.getLiquidity() - 200);
 	bank.addValue(accountA, 400);
 
-	std::cout << "Account : " << std::endl;
-	std::cout << accountA << std::endl;
-	std::cout << accountB << std::endl;
+	std::cout << "Account : \n";
+	std::cout << accountA << "\n";
+	std::cout << accountB << "\n";
 
-	std::cout << " ----- " << std::endl;
+	std::cout << " ----- \n";
 
-	std::cout << bank;
+	std::cout << bank << "\n";
 }
 
-static void myTest(void)
+static void myTests(void)
 {
 	Bank bank(1000);
 
@@ -34,16 +35,35 @@ static void myTest(void)
 
 	std::cout << bank;
 
-	std::cout << bank[3] << std::endl;
+	try {
+		std::cout << bank[accountA.getId()] << "\n";
+		assert(false);
+	} catch (Bank::AccountNotFoundException &e){
+		std::cout << e.what() << "\n";
+	}
+
+	try {
+		bank.giveLoan(accountA, 100);
+		assert(false);
+	} catch (Bank::AccountNotFoundException &e){
+		std::cout << e.what() << "\n";
+	}
+
+	try {
+		bank.giveLoan(accountB, 10000);
+		assert(false);
+	} catch (Bank::NotEnoughLiquidityException &e){
+		std::cout << e.what() << "\n";
+	}
 }
 
 int main(void)
 {
-	std::cout << "Subject test : " << std::endl;
+	std::cout << "Subject test : \n";
 	testSubject();
 
-	std::cout << "My test : " << std::endl;
-	myTest();
+	std::cout << "My tests : \n";
+	myTests();
 
 	return 0;
 }

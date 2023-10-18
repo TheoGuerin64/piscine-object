@@ -35,7 +35,7 @@ void Bank::deleteAccount(Account const &account)
     AccountMap::iterator it = _clientAccounts.find(account._id);
     if (it == _clientAccounts.end())
     {
-        throw std::invalid_argument("Account not found");
+        throw AccountNotFoundException();
     }
 
     delete it->second;
@@ -47,7 +47,7 @@ void Bank::giveLoan(Account const &account, unsigned int value)
     Account *account_ = _getAccount(account._id);
     if (_liquidity < static_cast<int>(value))
     {
-        throw std::invalid_argument("Not enough liquidity");
+        throw NotEnoughLiquidityException();
     }
     else if (value > INT_MAX || account_->_value + static_cast<int>(value) < 0)
     {
@@ -116,7 +116,7 @@ Bank::Account *Bank::_getAccount(int id)
     AccountMap::iterator it = _clientAccounts.find(id);
     if (it == _clientAccounts.end())
     {
-        throw std::invalid_argument("Account not found");
+        throw AccountNotFoundException();
     }
     return it->second;
 }

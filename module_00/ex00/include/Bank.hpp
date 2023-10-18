@@ -21,7 +21,7 @@ class Bank
                 int const _id;
                 int _value;
 
-                Account(int value);
+                Account(int value = 0);
                 Account(Account const &other); // delete
                 Account &operator=(Account const &other); // delete
                 ~Account();
@@ -42,6 +42,18 @@ class Bank
         void setLiquidity(int liquidity);
 
         friend std::ostream &operator<<(std::ostream &p_os, Bank const &p_bank);
+
+        class AccountNotFoundException : public std::exception
+        {
+            public:
+                virtual const char *what() const throw() { return "Account not found"; }
+        };
+
+        class NotEnoughLiquidityException : public std::exception
+        {
+            public:
+                virtual const char *what() const throw() { return "Not enough liquidity"; }
+        };
 
 
     private:

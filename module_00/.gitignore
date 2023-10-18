@@ -1,4 +1,8 @@
-ex00/test
-ex01/graph
-ex01/graph.png
-ex01/plus.png
+.vscode
+bin
+test
+graph.png
+DivideAndRule.cpp
+graph.png
+points_example.png
+plus.png

@@ -16,29 +16,25 @@ class Graph
         Graph &operator=(Graph const &other);
         ~Graph();
 
-        void addPoint(unsigned int x, unsigned int y);
-        void addLine(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2);
+        void addPoint(Vector2 point);
+        void addLine(Vector2 point1, Vector2 point2);
         void show(void) const;
         void save(char const *filename) const;
         void fromFile(std::string const &filename);
 
         unsigned int getWidth(void) const;
         unsigned int getHeight(void) const;
+        std::vector<Vector2> const &getPoints(void) const;
+        std::vector< std::pair<Vector2, Vector2> > const &getLines(void) const;
 
 		class InvalidSizeException : public std::exception {
 			public:
-				char const *what(void) const throw()
-                {
-                    return "Invalid size";
-                }
+				char const *what(void) const throw() { return "Invalid size"; }
 		};
 
         class OutOfBoundsException : public std::exception {
 			public:
-				char const *what(void) const throw()
-                {
-                    return "Out of bounds";
-                }
+				char const *what(void) const throw() { return "Out of bounds"; }
 		};
 
         class InvalidFileException : public std::exception {
@@ -49,8 +45,7 @@ class Graph
                     _message += filename;
                 }
 
-                ~InvalidFileException() throw()
-                {}
+                ~InvalidFileException() throw() {}
 
                 char const *what(void) const throw()
                 {
@@ -68,4 +63,6 @@ class Graph
         unsigned int _height;
         std::vector<Vector2> _points;
         std::vector< std::pair<Vector2, Vector2> > _lines;
+
+        Graph(void); // delete
 };

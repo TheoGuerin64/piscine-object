@@ -1,6 +1,6 @@
 MAKEFLAGS += -j
 
-NAME := graph
+NAME := test
 SRC := 	main.cpp \
 		Vector2.cpp \
 		Graph.cpp \
@@ -17,12 +17,13 @@ all: $(NAME)
 
 $(ZLIB):
 	@cd lib/zlib && ./configure > /dev/null
+	@sleep 0.1
 	@make -sC lib/zlib
-	@printf "\033[32m[✔] Created %s\n\033[0m" "zlib"
+	@printf "\033[32m[✔] Created zlib\n\033[0m"
 
 $(NAME): $(ZLIB) $(BIN)
 	@$(CC) -o $(NAME) $(BIN) -lz -L lib/zlib
-	@printf "\033[32m[✔] Created %s\n\033[0m" "$(NAME)"
+	@printf "\033[32m[✔] Created $(NAME)\n\033[0m"
 
 bin/%.o: src/%.cpp
 	@mkdir -p $(@D)
@@ -30,13 +31,13 @@ bin/%.o: src/%.cpp
 
 clean:
 	@rm -rf bin
-	@make -sC lib/zlib clean
-	@printf "\033[31m[✔] Cleaned %s\n\033[0m" "$(NAME)"
+	@test -f lib/zlib/libz.so && make -siC lib/zlib clean || true
+	@printf "\033[31m[✗] Cleaned $(NAME)\n\033[0m"
 
 fclean: clean
 	@rm -f $(NAME)
 	@make -sC lib/zlib distclean
-	@printf "\033[31m[✔] Fcleaned %s\n\033[0m" "$(NAME)"
+	@printf "\033[31m[✗] Fcleaned $(NAME)\n\033[0m"
 
 re: fclean
 	@make -s

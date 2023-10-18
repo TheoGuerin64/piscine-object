@@ -1,4 +1,4 @@
-#include "zlib.h"
+#include "png.hpp"
 #include <cassert>
 #include <cstring>
 #include <fstream>
@@ -6,9 +6,9 @@
 #include <stdexcept>
 #include <vector>
 
-#include "png.hpp"
+#include "zlib.h"
 
-inline static Byte extractByte(int value, int index)
+static Byte extractByte(int value, int index)
 {
     return static_cast<Byte>(value >> (index * 8));
 }

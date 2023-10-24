@@ -8,10 +8,11 @@
 
 inline void drawPoint(std::vector<PNG::Byte> &data, int width, int height, int x, int y, bool isLine /* = false */)
 {
-    (void)height;
-    data[y * width * 3 + y + x * 3 + 1] = isLine ? 255 : 0;
-    data[y * width * 3 + y + x * 3 + 2] = 0;
-    data[y * width * 3 + y + x * 3 + 3] = 0;
+    y = height - y - 1;
+    int offset = y * width * 3 + y + x * 3;
+    data[offset + 1] = isLine ? 255 : 0;
+    data[offset + 2] = 0;
+    data[offset + 3] = 0;
 }
 
 inline void drawPoint(std::vector<std::string> &data, int width, int height, int x, int y, bool isLine /* = false */)

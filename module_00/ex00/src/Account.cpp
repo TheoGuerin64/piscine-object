@@ -28,16 +28,16 @@ Bank::Account::Account(int value /* = 0 */)
 }
 
 Bank::Account::Account(Account const &other) /* = delete */
-    : _id(other._id)
+    : _id(-1)
 {
     (void)other;
-    assert("Account copy constructor should not be called" && false);
+    assert(false);
 }
 
 Bank::Account &Bank::Account::operator=(Account const &other) /* = delete */
 {
     (void)other;
-    assert("Account assignment operator should not be called" && false);
+    assert(false);
     return *this;
 }
 

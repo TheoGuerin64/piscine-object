@@ -17,7 +17,7 @@ $(NAME): $(BIN)
 
 bin/%.o: src/%.cpp
 	@mkdir -p $(@D)
-	@$(CPPC) $(CPPFLAGS) -c $< -o $@ -I include -I lib/zlib
+	@$(CPPC) $(CPPFLAGS) -c $< -o $@ -I include
 
 clean:
 	@rm -rf bin

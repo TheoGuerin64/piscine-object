@@ -101,13 +101,13 @@ std::ostream &operator<<(std::ostream &p_os, Bank const &p_bank)
 Bank::Bank(Bank const &other) /* = delete */
 {
     (void)other;
-    assert("Copy constructor should not be called" && false);
+    assert(false);
 }
 
 Bank &Bank::operator=(Bank const &other) /* = delete */
 {
     (void)other;
-    assert("Assignment operator should not be called" && false);
+    assert(false);
     return *this;
 }
 
